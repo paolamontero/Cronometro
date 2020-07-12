@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style>
+
+body {
+    background-color: aqua;
+    font-size: 1.8rem;
+}
+
+.container {
+    margin: 10px auto;
+    border: 1px solid gray;
+    text-align: center;;
+    padding: 10px;
+}
+
+button {
+    width: 40%;
+    font-size: 1rem;
+}
+
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h3>
+            <span id="crono">0.0</span>&nbsp;segundos
+        </h3>
+
+        <button id="btnStart">Start</button>
+        <button id="btnReset">Reset</button>
+    </div>
+
+<script>
+let crono = document.querySelector("#crono")
+let tiempo
+
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    localStorage.crono = (localStorage.crono || "0.0")
+    mostrar()
+
+
+    let btnStart = document.querySelector('#btnStart')
+    let btnReset = document.querySelector('#btnReset')
+
+    btnStart.addEventListener('click', start)
+    btnReset.addEventListener('click', reset)
+})
+
+const start = (e)=>{
+    console.log("start")
+    if(!tiempo){
+        startCrono()
+        btnStart.innerText = "Stop"
+    }else {
+        stop()
+    }
+}
+
+const reset = (e)=>{
+    console.log("reset")
+    localStorage.crono = "0.0";
+    // cambiar el valor en pantalla
+    mostrar()
+}
+
+const stop = (e)=>{
+    console.log("stop")
+    btnStart.innerText = "Start"
+    //parar el tiempo
+    clearInterval(tiempo)
+    tiempo = undefined
+}
+
+const startCrono = (e)=>{
+    console.log("Iniciar cronometro")
+    tiempo = setInterval( ()=>{
+        // Incrementar el varor del tiempo
+        incrementar()
+        // Mostrarlo en pantalla
+        mostrar()
+    }, 100)
+}
+
+const incrementar = ()=>{
+    localStorage.crono = +localStorage.crono + 0.1
+}
+
+const mostrar = () =>{
+    crono.innerHTML = (+localStorage.crono).toFixed(2)
+}
+
+
+</script>
+
+
+</body>
+</html>
